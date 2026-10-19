@@ -24,9 +24,7 @@ app.get("/signup", (req, res) => {
 
 // Route API pour le frontend
 app.get("/api/test",(req, res) => {
-    res.json({
-        message: "FRONTEND SUCCESS"
-    });
+    res.json({message: "FRONTEND SUCCESS"});
 });
 async function connectDB() {
     try {
