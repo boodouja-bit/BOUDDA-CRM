@@ -1,4 +1,3 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -10,7 +9,7 @@ app.use(express.json());
 
 // Route principale
 app.get("/", (req, res) => {
-    res.send("Hello from le front,Bilal Boudda");
+    res.send("Hey from le front,Bilal Boudda");
 });
 
 // Route login
@@ -19,7 +18,7 @@ app.get("/login", (req, res) => {
 });
 
 // Route sign-up
-app.get("/sign-up", (req, res) => {
+app.get("/signup", (req, res) => {
     res.send("SIGNUP TESTTT");
 });
 
@@ -29,12 +28,20 @@ app.get("/api/test",(req, res) => {
         message: "FRONTEND SUCCESS"
     });
 });
-
-// Connexion MongoDB
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("MongoDB connecté"))
-    .catch(err => console.log("Erreur MongoDB :", err.message));
-
+async function connectDB() {
+    try {
+        const uri = process.env.MONGODB_URI 
+        if (!uri) {
+            throw new Error('MONGO_URI / MONGODB_URI non définie dans le fichier .env');
+        }
+        await mongoose.connect(uri);
+        console.log('MongoDB connected successfully');
+    } catch (error) {
+        console.error('MongoDB connection error:', error.message);
+        process.exit(1);
+    }
+}
+connectDB();
 // Démarrer le serveur
 app.listen(PORT, () => {
     console.log(`Serveur lancé sur le port ${PORT}`);
